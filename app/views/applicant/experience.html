@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<h3>Add work experience</h3>
+			<form name="experience" ng-submit="saveJob(job)" novalidate>
+				<div class="form-group">
+					<label>Company Name</label>
+					<input type="text" name="company" class="form-control" ng-model="job.company" typeahead="company for company in companies | filter:$viewValue | limitTo:10" required>
+				</div>
+				<div class="form-group">
+					<label>Your position</label>
+					<input type="text" name="position" class="form-control" ng-model="job.position" required>
+				</div>
+				<div class="form-group">
+					<label>Months worked</label>
+					<input type="text" name="months-worked" class="form-control" ng-model="job.monthsWorked" required>
+				</div>
+				<button type="submit" class="button btn-primary">Save</button>
+			</form>
+		</div>
+
+		<div class="col-md-8" style="background-color:#eee; border:1px solid black; border-radius:20px; min-height:300px; ">
+			<h3>Your experience</h3>
+
+			<ul ng-repeat="job in jobs">
+
+				<li>
+					<experience-record company="{{job.company}}" position="{{job.position}}" months-worked="{{job.monthsWorked}}" edit="editJob(index)" index="{{$index}}"></record>
+					<button type="button" class="btn btn-link" ng-click="editJob($index)">Edit</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</div>
