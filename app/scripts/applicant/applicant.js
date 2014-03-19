@@ -2,7 +2,7 @@
 
 //angular.module('jobBoardApp.employee',[]);
 
-angular.module('jobBoardApp.applicant', [ 
+var applicant = angular.module('jobBoardApp.applicant', [ 
 	'ngRoute', 
 	'ngGrid', 
 	'ui.mask',

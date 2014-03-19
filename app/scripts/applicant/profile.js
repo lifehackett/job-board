@@ -1,42 +1,26 @@
 'use strict';
 
-angular.module('jobBoardApp.applicant')
-.controller('ProfileCtrl', function ($scope, Applicant) {
+applicant.controller('ProfileCtrl', function ($scope, Applicant) {
 
-	$scope.applicants = Applicant.get();
+	
+	$scope.applicants = Applicant.all;
 	$scope.applicant = {
-		first: '',
-		last: '',
-		email: '',
-		phone: ''
+		first: 'bob',
+		last: 'marley',
+		email: 'bob@mail.com',
+		phone: '1234567890'
 	};
 
 
 	$scope.saveProfile = function(applicant){
-		Applicant.save(applicant, function(ref) {
-			$scope.applicants[ref.name] = applicant;
-			$scope.applicant = {
-				first: '',
-				last: '',
-				email: '',
-				phone: ''
-			};
-			console.log("success");
+		Applicant.create(applicant).then(function(){
+			// $scope.applicant = {
+			// 	first: '',
+			// 	last: '',
+			// 	email: '',
+			// 	phone: ''
+			// };
 		});
-		// $scope.applicants.push(applicant);
-		
-		alert('foo');
-		// if(valid){
-		// 	$scope.users.push($scope.user);
-		// 	$scope.user = {
-		// 		first: '',
-		// 		last: '',
-		// 		email: '',
-		// 		phone: ''
-		// 	};
-		// }
-		// else{alert("Bad");}
-		
 	};
 
 	
