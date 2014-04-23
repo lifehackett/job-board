@@ -99,3 +99,23 @@ body {
 input.has-error{
     //background-color: #b94a48;
 }
+
+#searchResults
+{
+    position: absolute;
+    width: 350px; 
+    background: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+
+    border: 1px solid gray;
+
+    /*This is relative to the navbar now*/
+    left: 270px;;
+    right: 0;
+    top: 50px;
+}
+
+.angular-google-map-container { height: 400px; }

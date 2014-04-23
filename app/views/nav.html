@@ -31,7 +31,14 @@
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search" ng-model="navSearch.$">
+        </div>
+        <div id="searchResults" ng-show="navSearch.$.length > 0">
+          <table  class="table">
+            <tr ng-repeat="listing in jobs.listings | filter:navSearch | orderBy:'restaurant'">
+              <td>{{listing.restaurant}}</td>
+              <td>{{listing.position}}
+          </table>    
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>

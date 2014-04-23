@@ -13,9 +13,7 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
-    <link rel="img/svg" href="bower_components/sass-bootstrap/dist/fonts/glyphicons-halflings-regular.woff" />
-    <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css" />
-    <link rel="stylesheet" href="bower_components/angular-ui/build/angular-ui.css" />
+    <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
@@ -49,29 +47,34 @@
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
+        <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/ng-grid/build/ng-grid.min.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
-    <script src="bower_components/ng-grid/build/ng-grid.js"></script>
-    <script src="bower_components/angular-ui-bootstrap/src/position/position.js"></script>
-    <script src="bower_components/angular-ui-bootstrap/src/bindHtml/bindHtml.js"></script>
-    <script src="bower_components/angular-ui-bootstrap/src/typeahead/typeahead.js"></script>
     <script src="bower_components/firebase/firebase.js"></script>
-    <script src="bower_components/angularfire/angularfire.js"></script>
     <script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
+    <script src="bower_components/angularfire/angularfire.js"></script>
+    <script src="bower_components/geoFire/geoFire.js"></script>
+    <script src="bower_components/angularGeoFire/dist/angularGeoFire.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src="bower_components/angularGeo/dist/angulargeo.js"></script>
+    <script src="bower_components/angularGeo/dist/providers/angulargeo-google.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/services/jobs.js"></script>
         <script src="scripts/applicant/applicant.js"></script>
         <script src="scripts/services/applicant.js"></script>
         <script src="scripts/applicant/profile.js"></script>
@@ -80,8 +83,10 @@
         <script src="scripts/applicant/experience_record.js"></script>
         <script src="scripts/company/company.js"></script>
         <script src="scripts/services/auth.js"></script>
+        <script src="scripts/SearchCtrl.js"></script>
         <script src="scripts/AuthCtrl.js"></script>
         <script src="scripts/NavCtrl.js"></script>
+        <script src="scripts/TestDataCtrl.js"></script>
         <!-- endbuild -->
 </body>
 </html>
