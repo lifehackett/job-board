@@ -17,7 +17,29 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 		search: function(lat, lng, miles){
 			geo.$getPointsNearLoc([lat,lng],miles)
 				.then(function(array){
-					jobs = array;	
+					// you have to push to existing array reference otherwise
+					// you change the pointer.
+					// Example:
+					// 
+					// var jobs = []; jobs now points to memory location A
+					// var Job = { listings: jobs, ... }; Job.listings now also points to memory location A
+					// ... in controller ..
+					// $scope.listings = Job.listings; $scope.listings now points to memory locaiton A
+					// ... back in this search function ...
+					// If you do jobs = array; - now jobs points to memory location B, but this does not
+					// implicitly update the other reference pointers (Job.listings, $scope.listings)
+					// Instead - you need to deal with that initial array and just push/pop/splice/shift/unshift from it
+					// If you ever need to clear it, you can do:
+					// jobs.length = 0; which is an efficient way to zero out an array, then just push back onto it
+					
+					// the other option is to turn Job.listings into a function, a la:
+					// listings: function() { return jobs; }
+					// $scope.listings = Job.listings; -- Setup a function pointer
+					// <div ng-repeat="job in listings()">{{job}}</div>
+					// I prefer the option of just maintaining the array but either way works.
+					angular.forEach(array, function(value, key) {
+						jobs.push(value);
+					});	
 				});
 		}
 	};
