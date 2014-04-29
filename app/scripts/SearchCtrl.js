@@ -1,9 +1,13 @@
 'use strict';
 
-	app.controller('SearchCtrl', function($scope, filterFilter, Job, angularGeo, $geofire, FIREBASE_URL){
+	app.controller('SearchCtrl', function($scope, filterFilter, Job, angularGeo, $geofire, FIREBASE_URL, Lookup){
 
 		$scope.listings = Job.listings;
+		$scope.states = Lookup.all;
+		$scope.state = $scope.states[2];
+		// Lookup.$bind($scope, "states");
 
+		var foo = $scope.states;
 		$scope.searchCoords = {
 			latitude:"",
 			longitude:""
@@ -14,19 +18,38 @@
 		$scope.filterOptions = {
 			filterText:""
 		};
-		// $scope.filteredListings = function(){
-		// 	return filterFilter($scope.listings, $scope.filterOptions.filterText);
-		// };
+
+		$scope.foobar = function() {alert("Foobar");}
 
 
-		// var geo = $geofire(new Firebase(FIREBASE_URL + "restaurants"));
 
-		// var proximitySearch = function(lat, lng, miles){
-		// 	geo.$getPointsNearLoc([lat,lng],miles)
-		// 		.then(function(array){
-		// 			$scope.filteredListings = array;	
-		// 		});
-		// };
+		$scope.selectMarker = function(listing){
+	    	angular.forEach($scope.listings, function(data, index){
+	    		if(data.restaurant === listing.restaurant){
+	    			$scope.gridOptions.selectItem(index, true);
+	    			data.isSelected = true;
+	    		}
+	    		else{
+	    			$scope.gridOptions.selectItem(index, false);
+	    			data.isSelected = false;
+	    		}
+	    		//$scope.gridOptions.selectItem(index, true);
+	    	});
+	    };
+
+	    $scope.selectRow = function(listing){
+			angular.forEach($scope.listings, function(data, index){
+	    		if(data.restaurant === listing.restaurant){
+	    			//$scope.gridOptions.selectItem(index, true);
+	    			data.isSelected = true;
+	    		}
+	    		else{
+	    			//$scope.gridOptions.selectItem(index, false);
+	    			data.isSelected = false;
+	    		}
+	    		//$scope.gridOptions.selectItem(index, true);
+	    	});
+		};
 
 		var checkboxCellTemplate='<div class="ngSelectionCell"><input class="ngSelectionCheckbox" type="checkbox" ng-checked="lunch" /></div>';
 		var addressTemplate='<div class="ngSelectionCell">{{row.entity.address.city}}, {{row.entity.address.state}}</div>'
@@ -34,7 +57,9 @@
 			data:'listings',
 			enableSorting: true,
 			filterOptions:$scope.filterOptions,
-			//jqueryUITheme:true,
+			keepLastSelected: false,
+			multiSelect:false,
+			//afterSelectionChange: function(rowItem, event){ selectRow(rowItem.entity)},
 			columnDefs:[
 				{
 					field:'restaurant',
@@ -49,9 +74,12 @@
 			        displayName:'Location', 
 			        cellTemplate:addressTemplate
 			    }
-			]
+			],
+			rowTemplate:'<div ng-style="{\'cursor\': row.cursor, \'z-index\': col.zIndex() }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell {{col.cellClass}}" ng-cell ng-click="selectRow(row.entity)"></div>'
 
 		};
+
+		
 
 		$scope.map = {
 			center:{
@@ -68,43 +96,6 @@
 		};
 
 
-
-		
-
-		
-
-		//$scope.filteredMarkers = [];
-
-		// var filterListings = function() {
-		// 	//proximitySearch($scope.searchCoords.latitude, $scope.searchCoords.longitude, 10);
-		// 	$scope.filteredListings = filterFilter($scope.listings, $scope.filterOptions.filterText)
-			
-		// };
-
-		// var updateMarkers = function(){
-		// 	// var filteredListings = filterListings();
-		// 	$scope.filteredMarkers = [];
-		// 	angular.forEach($scope.filteredListings, function(value, key){
-
-		// 		var marker = {
-		// 			latitude: value.coords.latitude,
-		// 			longitude: value.coords.longitude,
-		// 		};
-		// 		// marker.onClicked = function() {
-		// 		// 	//marker.showWindow = true;
-		// 		// 	console.log("clicked");
-		// 		// };
-		// 		$scope.filteredMarkers.push(marker);
-
-		// 	});
-		// };
-
-
-		// $scope.filterJobs = function(){
-		// 	filterListings();
-		// 	//updateMarkers();
-		// };
-
 		var search = function() {
 			Job.search($scope.searchCoords.latitude, $scope.searchCoords.longitude, 15);
 			//filterListings();
@@ -119,20 +110,31 @@
 
 		});
 
-		
+		// $scope.$on('ngGridEventData', function(){
+	 //        $scope.gridOptions.selectRow(0, true);
+	 //    });
+
+	    
 
 
-		// var flattenAddress = function(address){
-		// 	return address.street + ', ' + address.city + ', ' + address.state + ' ' + address.zip
-		// };
 
+		//$scope.gridOptions.selectRow(2,true);
 
-		// $scope.proximitySearch = function(){
-		// 	proximitySearch($scope.searchCoords.latitude, $scope.searchCoords.longitude, 10);
+		// var geocoder = new google.maps.Geocoder();
 
-		// };
+		// var deferred = $q.defer();
 
-		
+  //       geocoder.geocode({
+  //           'address': "washington, dc"
+  //       }, function (results, status) {
+  //           deferred.resolve(results);
+  //       // Should also reject if AJAX errors.
+  //       });
+
+  //       return deferred.promise;
+
+		// var result = geocoder.geocode("washington, dc");
+		// var foo = "bar";
 
 		
 	});

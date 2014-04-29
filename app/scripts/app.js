@@ -34,10 +34,10 @@ var app = angular.module('jobBoardApp', [
         controller: 'TestDataCtrl'
       })
       .when('/', {
-        redirectTo:'/applicant/profile'
+        redirectTo:'/search'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/search'
       });
       angularGeoProvider.addProvider(angularGeoGoogleProvider.name);
   });

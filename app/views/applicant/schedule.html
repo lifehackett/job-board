@@ -1,6 +1,7 @@
 <div>
 	<div class="container">
-		<form name="foobar" novalidate>
+		<h3>What shifts are you available to work?</h3>
+		<form name="schedule" ng-submit="saveSchedule(applicant)" novalidate>
 			<div class="gridStyle" ng-grid="gridOptions"></div>
 			<!-- <div ng-repeat="day in schedule">
 				{{day.name}}
@@ -8,7 +9,7 @@
 				PM<input type="checkbox" name="pm" ng-model="day.pm" />
 
 			</div> -->
-			<!-- <button type="submit" class="btn btn-primary" >Save</button> -->
+			<button type="submit" class="btn btn-primary" >Save</button>
 		</form>
 	</div> 
 </div>

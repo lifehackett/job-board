@@ -5,12 +5,6 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 
 	var geo = $geofire(new Firebase(FIREBASE_URL + "restaurants"));
 
-		// var proximitySearch = function(lat, lng, miles){
-		// 	geo.$getPointsNearLoc([lat,lng],miles)
-		// 		.then(function(array){
-		// 			$scope.filteredListings = array;	
-		// 		});
-		// };
 
 	var Job = {
 		listings: jobs,
@@ -38,6 +32,7 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 					// <div ng-repeat="job in listings()">{{job}}</div>
 					// I prefer the option of just maintaining the array but either way works.
 					angular.forEach(array, function(value, key) {
+						jobs['isSelected'] = false;
 						jobs.push(value);
 					});	
 				});
