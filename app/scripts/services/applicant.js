@@ -42,3 +42,24 @@ app.factory('Applicant', function($firebase, FIREBASE_URL, User) {
 		return Applicant;
 		// return $resource('https://jobboard.firebaseio.com/applicants/:id.json')
 	});
+
+// var initializeService = function() {
+//        _listing.data = {};
+//        _currentUser = {};
+//        UserSvc.getCurrent().then(function(user) {
+//          _currentUser = user;
+//          initializeListing();
+//        });
+//      };
+
+//      $rootScope.$on('$firebaseSimpleLogin:logout', function() {
+//        $log.info('Logout detected - Re-initialize service');
+//        initializeService();
+//      });
+// initializeService();
+
+// $on('..:logout') listener
+// I do this in there now:
+// $log.info('Logout detected - Deleting current user');
+//        _getCurrentUserPromise = $q.defer();
+//                                delete $rootScope.currentUser;

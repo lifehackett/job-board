@@ -4,7 +4,10 @@ app.factory('User', function ($firebase, FIREBASE_URL, Auth, $rootScope, $q) {
 	var ref = new Firebase(FIREBASE_URL + 'users');
 
 	var users = $firebase(ref);
-	$rootScope.currentUser = {};
+  
+  var _getCurrentPromise = $q.defer();
+  
+	//$rootScope.currentUser = {};
 	//$rootScope.currentUser;
 
 	var User = {
@@ -26,18 +29,8 @@ app.factory('User', function ($firebase, FIREBASE_URL, Auth, $rootScope, $q) {
 		    return users.$child(username);
 		  }
 		},
-		getCurrent: function () {
-			var deferred = $q.defer();
-
-			if(!$rootScope.currentUser.username){
-				$rootScope.$watch($rootScope.currentUser, function(){
-					deferred.resolve($rootScope.currentUser);
-				});
-			}else {
-				deferred.resolve($rootScope.currentUser)
-			};
-
-		  	return deferred.promise;
+		getCurrent: function () {      
+		  return _getCurrentPromise.promise;
 		},
 		signedIn: function () {
 		  return $rootScope.currentUser !== undefined;
@@ -45,9 +38,10 @@ app.factory('User', function ($firebase, FIREBASE_URL, Auth, $rootScope, $q) {
 	};
 
 	function setCurrentUser (username) {
-		var user = User.findByUsername(username);
-
-	  	$rootScope.currentUser = user;
+		$rootScope.currentUser = User.findByUsername(username);
+    $rootScope.currentUser.$on("loaded", function() {
+      _getCurrentPromise.resolve($rootScope.currentUser);
+    });
 	};
 	$rootScope.$on('$firebaseSimpleLogin:login', function (e, authUser) {
 	  var query = $firebase(ref.startAt(authUser.uid).endAt(authUser.uid));

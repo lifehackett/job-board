@@ -3,47 +3,51 @@
   angular.module('jobBoardApp.applicant')
     .controller('ScheduleCtrl', function($scope, Applicant, User, $location){
 
-    //var user = User.getCurrent();
+  User.getCurrent().then(function(currentUser){
+    $scope.applicant = Applicant.find(currentUser.$id);
+    init();
+  });
 
-    $scope.applicant = {};//Applicant.find(user.username);
-    if($scope.applicant.schedule === undefined){
-      $scope.applicant.schedule = [
-        {
-          name:'Monday',
-          lunch:false,
-          dinner:false
-        },
-        {
-          name:'Tuesday',
-          lunch:false,
-          dinner:false
-        },
-        {
-          name:'Wednesday',
-          lunch:false,
-          dinner:false
-        },
-        {
-          name:'Thursday',
-          lunch:false,
-          dinner:false
-        },
-        {
-          name:'Friday',
-          lunch:false,
-          dinner:false
-        },
-        {
-          name:'Saturday',
-          lunch:false,
-          dinner:false
-        },
-        {
-          name:'Sunday',
-          lunch:false,
-          dinner:false
-        }];
-      }
+  var init = function(){
+      if(!$scope.applicant.schedule){
+        $scope.applicant.schedule = [
+          {
+            name:'Monday',
+            lunch:false,
+            dinner:false
+          },
+          {
+            name:'Tuesday',
+            lunch:false,
+            dinner:false
+          },
+          {
+            name:'Wednesday',
+            lunch:false,
+            dinner:false
+          },
+          {
+            name:'Thursday',
+            lunch:false,
+            dinner:false
+          },
+          {
+            name:'Friday',
+            lunch:false,
+            dinner:false
+          },
+          {
+            name:'Saturday',
+            lunch:false,
+            dinner:false
+          },
+          {
+            name:'Sunday',
+            lunch:false,
+            dinner:false
+          }];
+        }
+  };
 
     $scope.allLunch = true;
     $scope.allDinner = true;

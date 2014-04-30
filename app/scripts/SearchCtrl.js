@@ -1,16 +1,46 @@
 'use strict';
 
-	app.controller('SearchCtrl', function($scope, filterFilter, Job, angularGeo, $geofire, FIREBASE_URL, Lookup){
+app.filter('schedule', function() {
+	return function(listings, applicant){
+		var response = [];
+		angular.forEach(listings, function(data,index){
+			angular.forEach(data.schedule, function(innerData, innerIndex){
+				var canDoLunch = true;
+				var canDoDinner = true;
+				// var 
+				// angular.forEach(applicant.schedule, function(appData, appIndex){
+				// 	appData[]
+				// })
+				if(innerData.lunch){
 
+				}
+				if(innerData.dinner){
+
+				}
+			})
+		})
+	}
+})
+
+	app.controller('SearchCtrl', function($scope, filterFilter, Job, angularGeo, $geofire, FIREBASE_URL, Lookup, User, Applicant){
+		
+		User.getCurrent().then(function(currentUser){
+			if(currentUser) {
+	 			$scope.applicant = Applicant.find(currentUser.$id);
+	 		}
+	 	});
 		$scope.listings = Job.listings;
 		$scope.states = Lookup.all;
-		$scope.state = $scope.states[2];
+		$scope.state = {
+			selected:""
+		};
 		// Lookup.$bind($scope, "states");
 
 		var foo = $scope.states;
 		$scope.searchCoords = {
 			latitude:"",
-			longitude:""
+			longitude:"",
+			dist:15
 		};
 
 
@@ -19,9 +49,15 @@
 			filterText:""
 		};
 
-		$scope.foobar = function() {alert("Foobar");}
+		$scope.apply = function(listing){
+			listing.hasApplied = true;
+			listing.hasAppliedText = "You Applied";
 
-
+			// if($scope.applicant) {
+			// 	listing.applicants.push($scope.applicant.$id);
+			// 	Jobs.update(listing);
+			// }
+		}
 
 		$scope.selectMarker = function(listing){
 	    	angular.forEach($scope.listings, function(data, index){
@@ -53,6 +89,7 @@
 
 		var checkboxCellTemplate='<div class="ngSelectionCell"><input class="ngSelectionCheckbox" type="checkbox" ng-checked="lunch" /></div>';
 		var addressTemplate='<div class="ngSelectionCell">{{row.entity.address.city}}, {{row.entity.address.state}}</div>'
+		var applyTemplate = '<div class="ngSelectionCell"><button type="submit" style="font-size:12; padding:5px; " class="btn btn-primary" ng-click="apply(row.entity)" ng-hide="row.entity.hasApplied">Apply Now</button><span>{{row.entity.hasAppliedText}}</span></div>';
 		$scope.gridOptions = {
 			data:'listings',
 			enableSorting: true,
@@ -70,15 +107,17 @@
 					displayName:'Position'
 				},
 			    {
-			    	field:'location', 
-			        displayName:'Location', 
-			        cellTemplate:addressTemplate
+			    	field:'', 
+			        displayName:'', 
+			        cellTemplate:applyTemplate
 			    }
 			],
+			rowHeight:40,
 			rowTemplate:'<div ng-style="{\'cursor\': row.cursor, \'z-index\': col.zIndex() }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell {{col.cellClass}}" ng-cell ng-click="selectRow(row.entity)"></div>'
 
 		};
 
+		
 		
 
 		$scope.map = {
@@ -87,28 +126,24 @@
 				longitude:""
 			},
 			zoom:10,
-
+			control:{}
 		};
 
 		var centerMap = function(lat, lng){
 			$scope.map.center.latitude = lat;
 			$scope.map.center.longitude = lng;
+			
 		};
 
 
 		var search = function() {
-			Job.search($scope.searchCoords.latitude, $scope.searchCoords.longitude, 15);
+			Job.search($scope.searchCoords.latitude, $scope.searchCoords.longitude, $scope.searchCoords.dist);
 			//filterListings();
 		};
 
-		angularGeo.getCurrentPosition().then(function(pos){
-			
-			$scope.searchCoords.latitude = pos.coords.latitude;
-			$scope.searchCoords.longitude = pos.coords.longitude;
-			centerMap($scope.searchCoords.latitude, $scope.searchCoords.longitude);
-			search();
 
-		});
+
+
 
 		// $scope.$on('ngGridEventData', function(){
 	 //        $scope.gridOptions.selectRow(0, true);
@@ -118,20 +153,45 @@
 
 
 
-		//$scope.gridOptions.selectRow(2,true);
+		// $scope.gridOptions.selectRow(2,true);
 
-		// var geocoder = new google.maps.Geocoder();
+		var geocoder = new google.maps.Geocoder();
 
-		// var deferred = $q.defer();
+		$scope.proximitySearch = function() {
+			geocoder.geocode({
+            	'address': $scope.city + ", " + $scope.state
+	        }, function (results, status) {
+	            $scope.searchCoords.latitude = results[0].geometry.location.k;
+	            $scope.searchCoords.longitude = results[0].geometry.location.A;
+	            //centerMap($scope.searchCoords.latitude, $scope.searchCoords.longitude);
+	            //$scope.ma
+	            $scope.map.control.refresh({latitude:$scope.searchCoords.latitude, longitude:$scope.searchCoords.longitude});
+	        });
+		}
 
-  //       geocoder.geocode({
-  //           'address': "washington, dc"
-  //       }, function (results, status) {
-  //           deferred.resolve(results);
-  //       // Should also reject if AJAX errors.
-  //       });
+        var reverseLookup = function(lat,lng){
+        	var latLng = new google.maps.LatLng(lat,lng);
+			geocoder.geocode({
+				'latLng': latLng
 
-  //       return deferred.promise;
+			}, function(results, status) {
+				var address = results[0];
+				$scope.city = address.address_components[3].short_name;
+				$scope.state.selected = address.address_components[5].short_name;
+			});
+		};
+angularGeo.getCurrentPosition().then(function(pos){
+			
+			$scope.searchCoords.latitude = pos.coords.latitude;
+			$scope.searchCoords.longitude = pos.coords.longitude;
+			centerMap($scope.searchCoords.latitude, $scope.searchCoords.longitude);
+			search();
+			reverseLookup($scope.searchCoords.latitude, $scope.searchCoords.longitude);
+
+		});
+		
+
+        //return deferred.promise;
 
 		// var result = geocoder.geocode("washington, dc");
 		// var foo = "bar";

@@ -1,13 +1,23 @@
 <div class="container-fluid">
 	<input type="text" class="form-control" placeholder="Search" ng-model="filterOptions.filterText" >
+	<label>City</label>
+	<input type="text" ng-model="city" />
+	<label>State</label>
+	<select ng-model="state.selected" ng-options="state.key for (name,state) in states ">
+  	</select>
+	<label>Distance From</label>
+	<input type="text" ng-model="searchCoords.dist" />
 	<button ng-click="proximitySearch()" />
+	<label>Filter out schedules I can't work</label>
+	<input type="checkbox" ng-show="signedIn()" ng-model="filterSchedule" />
+
 	<div class="row">
 		<div class="col-md-6">
 			<div class="gridStyle col-md-6" ng-grid="gridOptions"></div>
 		</div>
 		<div class="col-md-6">
 			
-			<google-map center="map.center" zoom="map.zoom">
+			<google-map center="map.center" zoom="map.zoom" control="map.control">
 				<marker ng-repeat="listing in listings | filter:filterOptions.filterText" coords="listing.coords" click="selectMarker(listing)" >
 					<window show="listing.isSelected">
 						{{listing.restaurant}}
@@ -18,10 +28,6 @@
 		</div>
 	</div>
 
-	<label>City</label>
-	<input type="text" ng-model="city" />
-	<label>State</label>
-	<select ng-model="state" ng-options="state.key for (name,state) in states | orderByPriority | orderBy:state.key">
-  	</select>
+	
 	
 </div>

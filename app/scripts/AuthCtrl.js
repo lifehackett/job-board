@@ -20,11 +20,13 @@ app.controller('AuthCtrl', function($scope, $location, $timeout, Auth, User, App
 
 	$scope.register = function () {
 		Auth.register($scope.user).then(function (authUser) {
-		    User.create(authUser, $scope.user.username);
-	    	$timeout(function(){
-	    		Applicant.create($scope.user.username);
-	    		$location.path('/applicant/experience');
-	    	},2000);
+			Auth.login($scope.user).then(function(){
+			    User.create(authUser, $scope.user.username);
+		    	$timeout(function(){
+		    		Applicant.create($scope.user.username);
+		    		$location.path('/applicant/profile');
+		    	},2000);
+		    });
 		    	
 
 		    

@@ -5,12 +5,15 @@ angular.module('jobBoardApp.applicant')
 
 
  	User.getCurrent().then(function(currentUser){
- 		$scope.applicant = Applicant.find(currentUser.username);
-	    if(!$scope.applicant.experience){
-	    	$scope.applicant.experience = [
-	    	]
-	    }
+ 		$scope.applicant = Applicant.find(currentUser.$id);
+ 		init();
  	});
+
+ 	var init = function(){
+ 		if(!$scope.applicant.experience){
+ 			$scope.applicant.experience = [];
+ 		}
+ 	}
 
  	// $scope.applicant = {}
 
@@ -60,10 +63,10 @@ angular.module('jobBoardApp.applicant')
  		$scope.applicant.experience.push(job);
 		$scope.job = {
 	 		company: "",
-	 		positon: "",
+	 		position: "",
 	 		monthsWorked: ""
 	 	};
-	 	Applicant.update(applicant);
+	 	Applicant.update($scope.applicant);
 	 	$scope.submitted = false;
 
  	};

@@ -33,23 +33,26 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 					// I prefer the option of just maintaining the array but either way works.
 					angular.forEach(array, function(value, key) {
 						jobs['isSelected'] = false;
+						jobs['hasApplied'] = false;
+						jobs['hasAppliedText'] = "";
+						jobs.applicants = [];
 						jobs.push(value);
 					});	
 				});
+		},
+		update: function(job){
+			delete job.hasApplied;
+			delete job.isSelected;
+			delete job.hasAppliedText;
+			geo.$insertByLocWithId([job.coords.latitude, job.coords.longitude], job.restaurant, job).catch(function(err) { console.log(err)});
 		}
 	};
 
-	// $scope.onSearchButtonClick = function() { 
-	// 	Job.search(someLocationShit).then(function() 
-	// 		{ 
-	// 			$log.info('Yay!'); 
-	// 		}, function (err) { 
-	// 			$log.error('Oh FUCK'); 
-	// 		}); 
-	// 	}
+
 
 	// var Job = {}
 	// Job.listings = [
+
 	// 	{
 	// 		restaurant: "Clydes",
 	// 		position: "Bartender",
@@ -62,6 +65,36 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 	// 		coords: {
 	// 			latitude: "38.915822",
 	// 			longitude: "-77.01371499999999"
+	// 		},
+	// 		schedule:{
+	// 			"Monday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Tuesday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Wednesday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Thursday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Friday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Saturday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Sunday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			}
 	// 		}
 	// 	},
 	// 	{
@@ -76,6 +109,36 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 	// 		coords: {
 	// 			latitude: "38.878886",
 	// 			longitude: "-77.005314"
+	// 		},
+	// 		schedule:{
+	// 			"Monday":{
+	// 				lunch:false,
+	// 				dinner:true
+	// 			},
+	// 			"Tuesday":{
+	// 				lunch:false,
+	// 				dinner:true
+	// 			},
+	// 			"Wednesday":{
+	// 				lunch:false,
+	// 				dinner:true
+	// 			},
+	// 			"Thursday":{
+	// 				lunch:false,
+	// 				dinner:true
+	// 			},
+	// 			"Friday":{
+	// 				lunch:false,
+	// 				dinner:true
+	// 			},
+	// 			"Saturday":{
+	// 				lunch:false,
+	// 				dinner:true
+	// 			},
+	// 			"Sunday":{
+	// 				lunch:false,
+	// 				dinner:true
+	// 			}
 	// 		}
 	// 	},
 	// 	{
@@ -90,6 +153,36 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 	// 		coords: {
 	// 			latitude: "38.8446835",
 	// 			longitude: "-77.2754658"
+	// 		},
+	// 		schedule:{
+	// 			"Monday":{
+	// 				lunch:true,
+	// 				dinner:false
+	// 			},
+	// 			"Tuesday":{
+	// 				lunch:true,
+	// 				dinner:false
+	// 			},
+	// 			"Wednesday":{
+	// 				lunch:true,
+	// 				dinner:false
+	// 			},
+	// 			"Thursday":{
+	// 				lunch:true,
+	// 				dinner:false
+	// 			},
+	// 			"Friday":{
+	// 				lunch:true,
+	// 				dinner:false
+	// 			},
+	// 			"Saturday":{
+	// 				lunch:true,
+	// 				dinner:false
+	// 			},
+	// 			"Sunday":{
+	// 				lunch:true,
+	// 				dinner:false
+	// 			}
 	// 		}
 	// 	},
 	// 	{
@@ -104,6 +197,36 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 	// 		coords: {
 	// 			latitude: "38.843075",
 	// 			longitude: "-77.290571"
+	// 		},
+	// 		schedule:{
+	// 			"Monday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Tuesday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Wednesday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Thursday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Friday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Saturday":{
+	// 				lunch:false,
+	// 				dinner:false
+	// 			},
+	// 			"Sunday":{
+	// 				lunch:false,
+	// 				dinner:false
+	// 			}
 	// 		}
 	// 	},
 	// 	{
@@ -118,6 +241,36 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 	// 		coords: {
 	// 			latitude: "38.8402127",
 	// 			longitude: "-77.10175479999998"
+	// 		},
+	// 		schedule:{
+	// 			"Monday":{
+	// 				lunch:false,
+	// 				dinner:false
+	// 			},
+	// 			"Tuesday":{
+	// 				lunch:false,
+	// 				dinner:false
+	// 			},
+	// 			"Wednesday":{
+	// 				lunch:false,
+	// 				dinner:false
+	// 			},
+	// 			"Thursday":{
+	// 				lunch:false,
+	// 				dinner:false
+	// 			},
+	// 			"Friday":{
+	// 				lunch:false,
+	// 				dinner:false
+	// 			},
+	// 			"Saturday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Sunday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			}
 	// 		}
 	// 	},
 	// 	{
@@ -132,6 +285,36 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 	// 		coords: {
 	// 			latitude: "38.900419",
 	// 			longitude: "-76.98892899999998"
+	// 		},
+	// 		schedule:{
+	// 			"Monday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Tuesday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Wednesday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Thursday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Friday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Saturday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			},
+	// 			"Sunday":{
+	// 				lunch:true,
+	// 				dinner:true
+	// 			}
 	// 		}
 	// 	}
 	// ];
