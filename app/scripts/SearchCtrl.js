@@ -50,10 +50,13 @@ app.filter('schedule', function() {
 			listing.hasApplied = true;
 			listing.hasAppliedText = "You Applied";
 
-			// if($scope.applicant) {
-			// 	listing.applicants.push($scope.applicant.$id);
-			// 	Jobs.update(listing);
-			// }
+			if($scope.applicant) {
+				if(!listing.applicants){
+					listing.applicants = [];
+				}
+				listing.applicants.push($scope.applicant.$id);
+				Job.update(listing);
+			}
 		}
 
 		$scope.selectMarker = function(listing){
@@ -84,9 +87,10 @@ app.filter('schedule', function() {
 	    	});
 		};
 
+
 		var checkboxCellTemplate='<div class="ngSelectionCell"><input class="ngSelectionCheckbox" type="checkbox" ng-checked="lunch" /></div>';
 		var addressTemplate='<div class="ngSelectionCell">{{row.entity.address.city}}, {{row.entity.address.state}}</div>'
-		var applyTemplate = '<div class="ngSelectionCell"><button type="submit" style="font-size:12; padding:5px; " class="btn btn-primary" ng-click="apply(row.entity)" ng-hide="row.entity.hasApplied">Apply Now</button><span>{{row.entity.hasAppliedText}}</span></div>';
+		var applyTemplate = '<div class="ngSelectionCell"><button type="submit" style="font-size:12; padding:5px; " class="btn btn-primary" ng-click="apply(row.entity)" ng-hide="row.entity.applicants.indexOf(applicant.username) == -1">Apply Now</button><span ng-show="row.entity.applicants.indexOf(applicant.username) == -1"><strong>You\'ve Applied!</strong></span></div>';
 		$scope.gridOptions = {
 			data:'listings',
 			enableSorting: true,

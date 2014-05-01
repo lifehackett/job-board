@@ -46,7 +46,14 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 			delete job.hasApplied;
 			delete job.isSelected;
 			delete job.hasAppliedText;
-			geo.$insertByLocWithId([job.coords.latitude, job.coords.longitude], job.restaurant, job).catch(function(err) { console.log(err)});
+			delete job.$$hashKey
+			geo.$removeById(job.restaurant).then(function(){
+				geo.$insertByLocWithId([job.coords.latitude, job.coords.longitude], job.restaurant, job)
+					.catch(function(err) { console.log(err)});
+			});
+				
+		
+			
 		}
 	};
 
