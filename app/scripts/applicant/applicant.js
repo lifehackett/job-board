@@ -7,6 +7,7 @@ var applicant = angular.module('jobBoardApp.applicant', [
 	'ngGrid', 
 	'ui.mask',
 	'ngResource',
+	'focusOn'
 	// 'ui.bootstrap.typeahead'
 	])
 	.config(function ($routeProvider) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('jobBoardApp.applicant')
- .controller('ExperienceCtrl', function($scope, Applicant, User, $location, $log){
+ .controller('ExperienceCtrl', function($scope, Applicant, User, $location, $log, focus){
 
 
  	User.getCurrent().then(function(currentUser){
@@ -66,6 +66,8 @@ angular.module('jobBoardApp.applicant')
 	 		position: "",
 	 		monthsWorked: ""
 	 	};
+	 	focus('newItemAdded');
+
 	 	Applicant.update($scope.applicant);
 	 	$scope.submitted = false;
 
@@ -76,4 +78,8 @@ angular.module('jobBoardApp.applicant')
 		$scope.applicant.experience.splice(index, 1);
 		Applicant.update(applicant);
  	};
+
+ 	$scope.done = function() {
+ 		$location.path('/search')
+ 	}
  })

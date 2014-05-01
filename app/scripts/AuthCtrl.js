@@ -10,6 +10,8 @@ app.controller('AuthCtrl', function($scope, $location, $timeout, Auth, User, App
 		$location.path('/');
 	});
 
+	$scope.submitted= false;
+
 	$scope.login = function() {
 		Auth.login($scope.user).then(function() {
 			$location.path('/');
@@ -18,7 +20,8 @@ app.controller('AuthCtrl', function($scope, $location, $timeout, Auth, User, App
 		});
 	};
 
-	$scope.register = function () {
+	$scope.register = function (form) {
+		if(form.$invalid) {return;}
 		Auth.register($scope.user).then(function (authUser) {
 			Auth.login($scope.user).then(function(){
 			    User.create(authUser, $scope.user.username);

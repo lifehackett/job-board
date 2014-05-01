@@ -31,12 +31,9 @@ app.filter('schedule', function() {
 	 	});
 		$scope.listings = Job.listings;
 		$scope.states = Lookup.all;
-		$scope.state = {
-			selected:""
-		};
 		// Lookup.$bind($scope, "states");
 
-		var foo = $scope.states;
+
 		$scope.searchCoords = {
 			latitude:"",
 			longitude:"",
@@ -159,12 +156,11 @@ app.filter('schedule', function() {
 
 		$scope.proximitySearch = function() {
 			geocoder.geocode({
-            	'address': $scope.city + ", " + $scope.state
+            	'address': $scope.city + ", " + $scope.state.key
 	        }, function (results, status) {
 	            $scope.searchCoords.latitude = results[0].geometry.location.k;
 	            $scope.searchCoords.longitude = results[0].geometry.location.A;
-	            //centerMap($scope.searchCoords.latitude, $scope.searchCoords.longitude);
-	            //$scope.ma
+	            search();
 	            $scope.map.control.refresh({latitude:$scope.searchCoords.latitude, longitude:$scope.searchCoords.longitude});
 	        });
 		}
@@ -177,7 +173,13 @@ app.filter('schedule', function() {
 			}, function(results, status) {
 				var address = results[0];
 				$scope.city = address.address_components[3].short_name;
-				$scope.state.selected = address.address_components[5].short_name;
+				var state = address.address_components[5].short_name;
+				angular.forEach($scope.states, function(data, index){
+					if(data.key === state){
+						$scope.state = $scope.states[index];
+					}
+				});
+				//address.address_components[5].short_name;
 			});
 		};
 angularGeo.getCurrentPosition().then(function(pos){

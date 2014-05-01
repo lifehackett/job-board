@@ -31,7 +31,9 @@ app.factory("Job", function($geofire, FIREBASE_URL){
 					// $scope.listings = Job.listings; -- Setup a function pointer
 					// <div ng-repeat="job in listings()">{{job}}</div>
 					// I prefer the option of just maintaining the array but either way works.
+					jobs.length = 0;
 					angular.forEach(array, function(value, key) {
+
 						jobs['isSelected'] = false;
 						jobs['hasApplied'] = false;
 						jobs['hasAppliedText'] = "";

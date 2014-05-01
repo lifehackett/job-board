@@ -5,7 +5,7 @@
 			<form name="experience" ng-submit="saveJob(experience, job)" novalidate>
 				<div class="form-group" ng-class="{ true:'has-error'}[experience.company.$invalid && submitted]">
 					<label>Company Name*</label>
-					<input type="text" name="company" class="form-control" ng-model="job.company"  required>
+					<input type="text" name="company" class="form-control" ng-model="job.company"  required focus-on="newItemAdded">
 					<p ng-show="experience.company.$invalid && submitted" class="help-block">Please enter a company</p>
 				</div>
 				<div class="form-group" ng-class="{ true:'has-error'}[experience.position.$invalid && submitted]">
@@ -15,8 +15,9 @@
 				</div>
 				<div class="form-group" ng-class="{ true:'has-error'}[experience.months.$invalid && submitted]">
 					<label>Months worked*</label>
-					<input type="text" name="months" class="form-control" ng-model="job.monthsWorked" required>
-					<p ng-show="experience.months.$invalid && submitted" class="help-block">Please enter # months worked</p>
+					<input type="text" name="months" class="form-control" ng-model="job.monthsWorked" required ng-pattern="/^[0-9]{1,2}$/">
+					<p ng-show="experience.months.$error.required && submitted" class="help-block">Please enter # months worked</p>
+					<p ng-show="experience.months.$error.pattern && submitted" class="help-block">Please enter a number between 1-99</p>
 				</div>
 				<button type="submit" class="button btn-primary" ng-click="submitted=true">Add</button>
 			</form>
@@ -33,6 +34,7 @@
 				</li>
 			</ul>
 		</div>
+		<button type="button" style="float:right; margin-top:5px;" class="button btn-primary" ng-click="done()">Done</button>
 	</div>
 </div>
 </div>

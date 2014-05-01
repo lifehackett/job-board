@@ -14,18 +14,18 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
+        <li class="active"><a href="#">Search</a></li>
+<!--         <li><a href="#">Link</a></li> -->
+        <li class="dropdown" ng-show="signedIn()">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Me <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="#/applicant/profile">Profile</a></li>
             <li><a href="#/applicant/schedule">Schedule</a></li>
             <li><a href="#/applicant/experience">Experience</a></li>
-            <li class="divider"></li>
+<!--             <li class="divider"></li>
             <li><a href="#">Separated link</a></li>
             <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <li><a href="#">One more separated link</a></li> -->
           </ul>
         </li>
       </ul>
@@ -44,12 +44,7 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
-        <li>
-          <a href="#/users/{{ currentUser.username }}">
-            <img ng-src="http://www.gravatar.com/avatar/{{ currentUser.md5_hash }}" class="nav-pic" />
-            {{ currentUser.username }}
-          </a>
-        </li>
+        
         <li>
           <a href="#" class="glyphicon glyphicon-log-out" ng-click="logout()" style="margin-right:10px;" ></a>
 
@@ -57,11 +52,11 @@
       </ul>
       <ul class="nav navbar-nav navbar-right" ng-hide="signedIn()">
         <li>
-                    <a href="#/register" style="margin-right:10px;" ng-show="!signedIn()">Register</a>
+                    <a href="#/register" style="margin-right:10px;">Register</a>
           
         </li>
         <li>
-          <a href="#/login" style="margin-right:10px;" ng-show="!signedIn()">Login</a>
+          <a href="#/login" style="margin-right:10px;">Login</a>
         </li>
         <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -74,7 +69,7 @@
           </ul>
         </li> -->
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
         <li><a href="#/applicant/profile">Profile</a></li>
         <li><a href="#/applicant/schedule">Schedule</a></li>
         <li><a href="#/applicant/experience">Experience</a></li>

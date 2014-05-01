@@ -3,12 +3,12 @@
 	<label>City</label>
 	<input type="text" ng-model="city" />
 	<label>State</label>
-	<select ng-model="state.selected" ng-options="state.key for (name,state) in states ">
+	<select ng-model="state" ng-options="state.key for state in states | orderBy:'key'">
   	</select>
 	<label>Distance From</label>
 	<input type="text" ng-model="searchCoords.dist" />
 	<button ng-click="proximitySearch()" />
-	<label>Filter out schedules I can't work</label>
+	<label ng-show="signedIn()" >Filter out schedules I can't work</label>
 	<input type="checkbox" ng-show="signedIn()" ng-model="filterSchedule" />
 
 	<div class="row">
@@ -17,7 +17,7 @@
 		</div>
 		<div class="col-md-6">
 			
-			<google-map center="map.center" zoom="map.zoom" control="map.control">
+			<google-map center="map.center" zoom="map.zoom" control="map.control" draggable="true">
 				<marker ng-repeat="listing in listings | filter:filterOptions.filterText" coords="listing.coords" click="selectMarker(listing)" >
 					<window show="listing.isSelected">
 						{{listing.restaurant}}

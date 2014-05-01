@@ -1,11 +1,21 @@
 <div class="auth-forms">
 	<h2>Register</h2>
 
-	<form ng-submit="register()">
+	<form name="myForm" ng-submit="register(myForm)" novalidate>
 		<p ng-show="error" class="text-danger">{{ error }}</p>
-		<input type="email" ng-model="user.email" placeholder="Email" class="form-control"><br>
-		<input type="text" ng-model="user.username" placeholder="Username" class="form-control"><br>
-		<input type="password" ng-model="user.password" placeholder="Password" class="form-control"><br>
-		<input type="submit" value="Register" class="btn btn-primary" />
+		<div class="form-group" ng-class="{ true:'has-error'}[myForm.email.$invalid && submitted]">
+			<input type="email" name="email" ng-model="user.email" placeholder="Email" class="form-control" required>
+			<p ng-show="myForm.email.$invalid && submitted" class="help-block">Please enter a valid email</p>
+		</div>
+		<div class="form-group" ng-class="{ true:'has-error'}[myForm.username.$invalid && submitted]">
+			<input type="text" name="username" ng-model="user.username" placeholder="Username" class="form-control" required ng-pattern="/^[a-zA-Z0-9]+$/">
+			<p ng-show="myForm.username.$error.required && submitted" class="help-block">Please enter a username</p>
+			<p ng-show="myForm.username.$error.pattern && submitted" class="help-block">Username must contain only letters and numbers</p>
+		</div>
+		<div class="form-group" ng-class="{ true:'has-error'}[myForm.password.$invalid && submitted]">
+			<input type="password" name="password" ng-model="user.password" placeholder="Password" class="form-control" required>
+			<p ng-show="myForm.password.$invalid && submitted" class="help-block">Please enter a password</p>
+		</div>
+		<input type="submit" value="Register" class="btn btn-primary" ng-click="submitted=true"/>
 	</form>
 </div>
