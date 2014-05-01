@@ -625,7 +625,8 @@ $component-offset-horizontal: 180px !default;
 // --------------------------------------------------
 
 // Small screen / tablet
-$container-tablet:             ((720px + $grid-gutter-width)) !default;
+//previously 720
+$container-tablet:             ((72px + $grid-gutter-width)) !default;
 $container-sm:                 $container-tablet !default;
 
 // Medium screen / desktop
