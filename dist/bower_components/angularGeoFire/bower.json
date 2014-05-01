@@ -1,0 +1,26 @@
+{
+  "name": "AngularGeoFire",
+  "version": "0.6.1",
+  "authors": [
+    "Mike Pugh <mikepugh82@gmail.com>"
+  ],
+  "description": "Angular GeoFire Module",
+  "main": "src/angularGeoFire.js",
+  "keywords": [
+    "angular",
+    "firebase",
+    "geofire"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.5",
+    "geoFire": "https://github.com/firebase/geoFire.git#gh-pages"
+  }
+}

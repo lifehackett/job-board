@@ -1,0 +1,13 @@
+{
+  "name": "geoFire",
+  "homepage": "https://github.com/firebase/geoFire",
+  "_release": "7359ed0611",
+  "_resolution": {
+    "type": "branch",
+    "branch": "gh-pages",
+    "commit": "7359ed0611e81d76d342f47312de5b628a38eb72"
+  },
+  "_source": "https://github.com/firebase/geoFire.git",
+  "_target": "gh-pages",
+  "_originalSource": "https://github.com/firebase/geoFire.git"
+}
